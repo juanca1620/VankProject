@@ -1,13 +1,33 @@
-const env = require('dotenv').config();
-const mysql = require('mysql');
+import { Sequelize } from 'sequelize';
+import dotenv from 'dotenv';
+dotenv.config();
 
-const connection = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: ''
+console.log('DB_HOST:', process.env.DB_HOST);
+console.log('DB_USER:', process.env.DB_USER);
+console.log('DB_PASSWORD:', process.env.DB_PASSWORD);
+console.log('DB_NAME:', process.env.DB_NAME);
+console.log('DB_DIALECT:', process.env.DB_DIALECT);
+console.log('DB_PORT:', process.env.DB_PORT);
+
+const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
+  host: process.env.DB_HOST,
+  dialect: process.env.DB_DIALECT,
+  port: process.env.DB_PORT,
+  dialectOptions: {
+      ssl: false
+  }
 });
 
-connection.connect((err) => {
-    if(err) throw "Error en la conexión de la base de datos "+ err;
-});
+async function connectSequelize() {
+  try {
+    await sequelize.authenticate();
+    console.log('Conectado a Postgres con Sequelize');
+    await sequelize.sync();
+  } catch (error) {
+    console.error('Error conectando a Postgres:', error);
+    throw error;
+  }
+}
+
+connectSequelize();
+export { sequelize, connectSequelize };

@@ -1,0 +1,128 @@
+create schema colab;
+
+create table chat(
+  id serial primary key,
+  terminado boolean default false
+);
+
+create table chat_cliente(
+  id serial primary key,
+  cliente_id integer references cliente(id),
+  chat_id integer references chat(id)
+);
+
+create table chat_vendedor(
+  id serial primary key,
+  vendedor_id integer references vendedor(id),
+  chat_id integer references chat(id)
+);
+
+create table mensaje_chat( 
+  id serial primary key,
+  contenido text check (LENGTH(contenido) <+ 2000),
+  chat_id integer references chat(id),
+  user_id integer references user_a(id)
+);
+
+create table cupon_provedor(
+  id serial primary key,
+  descuento_porcentaje decimal(3,2) check(descuento_porcentaje > 0 and descuento_porcentaje <= 100),
+  id_provedor integer references provedor(id)
+);
+
+create table producto_provedor(
+  id serial primary key,
+  precio decimal(10,2) check(precio > 0),
+  descripcion varchar(1000),
+  cantidad_min integer check(cantidad_min > 0),
+  provedor_id integer references provedor(id)
+);
+
+create table factura_provedor(
+  id serial primary key,
+  valor_total decimal(12,2) check(valor_total > 0),
+  fecha timestamp default CURRENT_TIMESTAMP,
+  descuento_aplicado decimal(3,2) check(descuento_aplicado > 0 and descuento_aplicado <= 100),
+  vendedor_id integer references vendedor(id),
+  provedor_id integer references provedor(id)
+);
+
+create table item_factura_provedor(
+  id serial primary key,
+  cantidad_producto integer default 0,
+  producto_id integer references producto_provedor(id),
+  factura_id integer references factura_provedor(id)
+);
+
+create table credito_provedor(
+  id serial primary key,
+  fecha_limite date default CURRENT_DATE,
+  monto_pendiente decimal(12,2) check(monto_pendiente >= 0),
+  pendiente boolean default true,
+  id_factura integer references factura_provedor(id)
+);
+
+create table abono_provedor(
+  id serial  primary key,
+  fecha date default CURRENT_DATE,
+  monto decimal(12,2) check (monto > 0),
+  credito_id integer references credito_provedor(id)
+);
+
+create table factura_vendedor(
+  id serial primary key,
+  valor_total decimal(12,2) check(valor_total > 0),
+  fecha timestamp default CURRENT_TIMESTAMP,
+  descuento_aplicado decimal(3,2) check(descuento_aplicado > 0 and descuento_aplicado <= 100),
+  vendedor_id integer references vendedor(id),
+  cliente_id integer references cliente(id)
+);
+
+create table credito_vendedor(
+  id serial primary key,
+  fecha_limite date default CURRENT_DATE,
+  monto_pendiente decimal(12,2) check(monto_pendiente >= 0),
+  pendiente boolean default true,
+  id_factura integer references factura_vendedor(id)
+);
+
+create table abono_vendedor(
+  id serial  primary key,
+  fecha date default CURRENT_DATE,
+  monto decimal(12,2) check (monto > 0),
+  credito_id integer references credito_vendedor(id)
+);
+
+create table stock (
+  id serial primary key,
+  cantidad integer check(cantidad >= 0)
+);
+
+create table producto_vendedor(
+  id serial primary key,
+  precio decimal(10,2) check(precio > 0),
+  importancia integer default 0,
+  descripcion varchar(1000),
+  vendedor_id integer references vendedor(id),
+  stock_id integer references stock(id)
+);
+
+create table comentario(
+  id serial primary key,
+  contenido text check (LENGTH(contenido) <+ 2000),
+  cliente_id integer references cliente(id),
+  producto_id integer references producto_vendedor(id)
+);
+
+create table item_factura_vendedor(
+  id serial primary key,
+  cantidad_producto integer default 0,
+  producto_id integer references producto_vendedor(id),
+  factura_id integer references factura_vendedor(id)
+);
+
+create table cupon_vendedor(
+  id serial primary key,
+  descuento_porcentaje decimal(3,2) check(descuento_porcentaje > 0 and descuento_porcentaje <= 100),
+  id_provedor integer references vendedor(id)
+);

@@ -1,6 +1,9 @@
 import express from 'express';
+import  { connectSequelize } from './database/Connection.js';
 import bodyParser from 'body-parser';
-import auth from './routes/auth.js';
+import vendedor from './routes/vendedor.js';
+import auth from './routes/Auth.js';
+import factura from './routes/factura.js';
 
 // 2. Crear una instancia de la aplicación Express usando 'let'​
 let app = express();
@@ -13,9 +16,21 @@ app.use(bodyParser.urlencoded({
 })); // Para parsear el cuerpo de las solicitudes en formato URL-encoded​
 
 app.use('/auth', auth);
+app.use('/vendedor', vendedor);
+app.use('/facturacion',factura);
 
 
-const PORT = 3000;
-app.listen(PORT, () => {
-  console.log(`Servidor escuchando en http://localhost:${PORT}`);
-});
+
+async function startServer() {
+  try {
+    await connectSequelize();
+    const PORT = process.env.PORT || 3000;
+    app.listen(PORT, () => {
+      console.log(`Servidor corriendo en http://localhost:${PORT}`);
+    });
+  } catch (error) {
+    console.error('Error iniciando la aplicación:', error);
+  }
+}
+
+startServer();

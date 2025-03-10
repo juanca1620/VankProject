@@ -2,8 +2,8 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 dotenv.config();
 
-class RepositorioProducto {
+class RepositorioItemFactura {
 
 }
 
-export default RepositorioProducto;
+export default RepositorioItemFactura;
