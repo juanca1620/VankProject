@@ -24,7 +24,7 @@ const VendedorDTO = sequelize.define('vendedor', {
     },
 },{
     freezeTableName: true,
-    timestamps: true,
+    timestamps: false,
 });
 
 export default VendedorDTO;

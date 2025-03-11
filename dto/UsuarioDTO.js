@@ -35,7 +35,7 @@ const UsuarioDTO = sequelize.define('usuario', {
 }
 },{
     freezeTableName : true,
-    timestamps: true, 
+    timestamps: false, 
   });
 
 export default UsuarioDTO;

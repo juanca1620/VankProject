@@ -16,7 +16,7 @@ const ProveedorDTO = sequelize.define('proveedor', {
     }
 },{
     freezeTableName: true,
-    timestamps: true,
+    timestamps: false,
 });
 
 export default ProveedorDTO;

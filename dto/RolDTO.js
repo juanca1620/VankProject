@@ -14,7 +14,7 @@ const rolDTO = sequelize.define('rol', {
     },
 }, {
     freezeTableName: true,
-    timestamps: true,
+    timestamps: false,
 });
 
 export default rolDTO;

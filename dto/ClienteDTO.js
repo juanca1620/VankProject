@@ -23,7 +23,7 @@ const ClienteDTO = sequelize.define('cliente', {
     }
 },{
     freezeTableName: true,
-    timestamps: true,
+    timestamps: false,
 });
 
 export default ClienteDTO;

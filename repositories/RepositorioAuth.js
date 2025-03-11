@@ -47,8 +47,6 @@ class RepositorioAuth {
 
     const usuarioCreado = (await usuario.create(usuarioJSON)).toJSON();
     delete usuarioCreado.contrasenna;
-    delete usuarioCreado.createdAt;
-    delete usuarioCreado.updatedAt;
 
     let usuarioRol;
     let nombreUsuario;
