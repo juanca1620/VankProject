@@ -1,5 +1,6 @@
 import { Sequelize } from 'sequelize';
 import dotenv from 'dotenv';
+
 dotenv.config();
 
 console.log('DB_HOST:', process.env.DB_HOST);
@@ -14,7 +15,7 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
   dialect: process.env.DB_DIALECT,
   port: process.env.DB_PORT,
   dialectOptions: {
-      ssl: false
+    ssl: false
   }
 });
 
@@ -22,7 +23,7 @@ async function connectSequelize() {
   try {
     await sequelize.authenticate();
     console.log('Conectado a Postgres con Sequelize');
-    await sequelize.sync();
+    await sequelize.sync()
   } catch (error) {
     console.error('Error conectando a Postgres:', error);
     throw error;

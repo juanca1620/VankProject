@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../database/Connection.js';
 
-const UsuarioDTO = sequelize.define('user', {
+const UsuarioDTO = sequelize.define('usuario', {
   id: {
     type: DataTypes.BIGINT,
     primaryKey: true,
@@ -26,6 +26,13 @@ const UsuarioDTO = sequelize.define('user', {
     allowNull: false,
     unique: true,
   },
+  rol_id: {
+    references: {
+        model: 'rol',
+        key: 'id'
+    },
+    type: DataTypes.BIGINT,
+}
 },{
     freezeTableName : true,
     timestamps: true, 

@@ -17,8 +17,12 @@ const validacionesAuth = [
     }).withMessage('Rol inválido') 
 ];
 
+const validacionesLogin = [
+    body('email').notEmpty().withMessage('El email es obligatorio').isEmail().withMessage('Email inválido'),
+    body('contrasenna').notEmpty().withMessage('La contrasenna es obligatoria').isLength({ min: 8,max:72 }).withMessage('Contraseña inválida, tiene que ser entre 8 y 72 caracteres'),
+]
+
 const validadorAuth = (req, res, next) => {
-    console.log('llege al validador')
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() })
@@ -26,4 +30,4 @@ const validadorAuth = (req, res, next) => {
     next();
 };
 
-export default {validadorAuth,validacionesAuth};
+export default {validadorAuth,validacionesAuth,validacionesLogin};

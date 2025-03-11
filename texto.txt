@@ -1,5 +1,25 @@
 create schema colab;
 
+create table rol(
+id SERIAL primary key,
+descripcion VARCHAR(20)
+);
+
+create table usuario(
+  id serial primary key,
+  nombre_completo varchar(150) not null,
+  correo varchar (100) not null,
+  contrasennna varchar (255),
+  telefono varchar(10),
+  id_rol int references rol(id)
+);
+
+create table cliente(
+  id serial primary key,
+  balance decimal(10,2) check(balance >= 0)not null,
+  usuario_id integer references usuario(id)
+);
+
 create table chat(
   id serial primary key,
   terminado boolean default false
@@ -10,6 +30,12 @@ create table chat_cliente(
   cliente_id integer references cliente(id),
   chat_id integer references chat(id)
 );
+
+create table vendedor(
+  id serial primary key,
+  balance decimal(10,2) check(balance >= 0)not null,
+  usuario_id integer references usuario (id)
+); 
 
 create table chat_vendedor(
   id serial primary key,
@@ -22,6 +48,11 @@ create table mensaje_chat(
   contenido text check (LENGTH(contenido) <+ 2000),
   chat_id integer references chat(id),
   user_id integer references user_a(id)
+);
+
+create table proveedor(
+  id serial primary key,
+  usuario_id integer references usuario(id)
 );
 
 create table cupon_provedor(

@@ -15,13 +15,12 @@ const ClienteDTO = sequelize.define('cliente', {
         },
     },
     usuario_id: {
-        type: DataTypes.BIGINT,
-        allowNull: false,
         references: {
-            model: 'user',
-            key: 'id',
+            model: 'usuario',
+            key: 'id'
         },
-    },
+        type: DataTypes.BIGINT,
+    }
 },{
     freezeTableName: true,
     timestamps: true,

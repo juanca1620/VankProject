@@ -11,9 +11,7 @@ const controlador = new AuthController(servicio)
 const autenticador = validadorAuth
 const router = express.Router();
 
-router.post('/login', (req, res) => {
-    res.send('Login');
-})
+router.post('/login', autenticador.validacionesLogin,autenticador.validadorAuth, controlador.login);
 
 router.post('/register',autenticador.validacionesAuth,autenticador.validadorAuth, controlador.register);
 

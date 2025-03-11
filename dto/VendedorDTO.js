@@ -18,7 +18,7 @@ const VendedorDTO = sequelize.define('vendedor', {
         type: DataTypes.BIGINT,
         allowNull: false,
         references: {
-            model: 'user',
+            model: 'usuario',
             key: 'id',
         },
     },

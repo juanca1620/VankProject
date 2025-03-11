@@ -6,15 +6,14 @@ const ProveedorDTO = sequelize.define('proveedor', {
         type: DataTypes.BIGINT,
         primaryKey: true,
         autoIncrement: true,
-    }, 
-    usuario_id: {
-        type: DataTypes.BIGINT,
-        allowNull: false,
-        references: {
-            model: 'user',
-            key: 'id',
-        },
     },
+    usuario_id: {
+        references: {
+            model: 'usuario',
+            key: 'id'
+        },
+        type: DataTypes.BIGINT,
+    }
 },{
     freezeTableName: true,
     timestamps: true,
