@@ -1,7 +1,7 @@
 import express from 'express';
 import  { connectSequelize } from './database/Connection.js';
 import bodyParser from 'body-parser';
-import vendedor from './routes/vendedor.js';
+import vendedor from './routes/Vendedor.js';
 import auth from './routes/Auth.js';
 import factura from './routes/factura.js';
 
