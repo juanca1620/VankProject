@@ -20,7 +20,7 @@ const verifyToken = async (req, res, next) => {
       req.contrasenna = decoded.contrasenna;
 
       const info = {email: req.email, contrasenna: req.contrasenna}
-      const reponse = await repoVerifator.checkToken(info);
+      const reponse = await repoVerifator.checkTokenHashedPassword(info);
       
       if(!reponse){
         return res.status(401).json({ message: 'Token inválido o expirado' });
@@ -29,6 +29,9 @@ const verifyToken = async (req, res, next) => {
       next();
     } catch (error) {
       console.error('Error al verificar el token:', error.message);
+      if(error.message === 'jwt expired'){
+        return res.status(401).json({ message: 'Token invalido o expirado' });
+      }
       res.status(500).json({ message: error.message });
     }
   };

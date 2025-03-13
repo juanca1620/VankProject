@@ -5,7 +5,7 @@ class ControladorVendedor {
 
     cambiarBalance = async (req, res) => {
         try{
-            const resp = await this.servicioVendedor.cambiarBalance(req.body.balance, req.body.vendedor_id);
+            const resp = await this.servicioVendedor.cambiarBalance(req.body.credito, (req.body.id))
             if(resp.error){
                 return res.status(resp.code).json(resp);
             }

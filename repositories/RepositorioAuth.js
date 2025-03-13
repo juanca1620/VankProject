@@ -24,6 +24,21 @@ class RepositorioAuth {
     return true;
   }
 
+  async checkTokenHashedPassword (info){
+    const user = await usuario.findOne({ where: { correo: info.email } })
+
+    if (!user) {
+      return false;
+    }
+    const match = user.contrasenna === info.contrasenna;
+    
+    if (!match) {
+      return false;
+    }
+
+    return true;
+  }
+
   async login(info) {
     const user = await usuario.findOne({ where: { correo: info.email } });
 

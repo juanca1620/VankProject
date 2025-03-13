@@ -1,5 +1,6 @@
 class VendedorService {
-    consructor(repositorio) {
+
+    constructor(repositorio){
         this.repositorio = repositorio;
     }
 
