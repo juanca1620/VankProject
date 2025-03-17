@@ -1,7 +1,7 @@
- {}
-ae    
-ae
-const ComentarioDTO = Sequelize.define('comentario', {
+import {DataTypes} from 'sequelize';
+import {sequelize} from '../database/Connection.js';
+
+const ComentarioDTO = sequelize.define('comentario', {
     id: {
         type: DataTypes.BIGINT,
         primarykey: true,

@@ -1,11 +1,15 @@
 import { DataTypes, DECIMAL } from 'sequelize';
 import { sequelize } from '../database/Connection.js';
 
-const productoVendedorDTO = sequelize.define("producto_vendedor", {
+const productoProvedorDTO = sequelize.define("producto_provedor", {
     id: {
         type: DataTypes.BIGINT,
         primaryKey: true,
         autoIncrement: true,
+    },
+    nombre:{
+        type: DataTypes.STRING(100),
+        allowNull: false,
     },
     precio: {
         type: DataTypes.DECIMAL(10, 2),
@@ -19,7 +23,7 @@ const productoVendedorDTO = sequelize.define("producto_vendedor", {
             }
         }
     },
-    importacia: {
+    cantidad_min: {
         type: DataTypes.INTEGER,
         defaultValue: 0,
         validate: {
@@ -37,23 +41,17 @@ const productoVendedorDTO = sequelize.define("producto_vendedor", {
         type: DataTypes.STRING(1000),
         allowNull: false,
     },
-    vendedor_id: {
+    provedor_id: {
         references: {
             model: 'vendedor',
             key: 'id'
         },
         type: DataTypes.BIGINT
-    },
-    stock_id: {
-        references: {
-            model: 'stock',
-            key: 'id'
-        },
-        type: DataTypes.BIGINT
     }
-}
+},{
+    freezeTableName: true,
+    timestamps: false,
+});
 
-)
-
-export default productoVendedorDTO;
+export default productoProvedorDTO;
 

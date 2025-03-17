@@ -68,7 +68,7 @@ create table producto_provedor(
   cantidad_min integer check(cantidad_min > 0),
   provedor_id integer references provedor(id)
 );
-
+//YA
 create table factura_provedor(
   id serial primary key,
   valor_total decimal(12,2) check(valor_total > 0),
@@ -84,7 +84,7 @@ create table item_factura_provedor(
   producto_id integer references producto_provedor(id),
   factura_id integer references factura_provedor(id)
 );
-
+//YA
 create table credito_provedor(
   id serial primary key,
   fecha_limite date default CURRENT_DATE,
@@ -108,7 +108,7 @@ create table factura_vendedor(
   vendedor_id integer references vendedor(id),
   cliente_id integer references cliente(id)
 );
-
+//YA
 create table credito_vendedor(
   id serial primary key,
   fecha_limite date default CURRENT_DATE,
@@ -137,7 +137,7 @@ create table producto_vendedor(
   vendedor_id integer references vendedor(id),
   stock_id integer references stock(id)
 );
-
+//YA
 create table comentario(
   id serial primary key,
   contenido text check (LENGTH(contenido) <+ 2000),

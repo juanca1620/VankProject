@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import vendedor from './routes/Vendedor.js';
 import auth from './routes/Auth.js';
 import factura from './routes/factura.js';
+import productoVendedor from './routes/ProductoProvedor.js'
 
 // 2. Crear una instancia de la aplicación Express usando 'let'​
 let app = express();
@@ -18,8 +19,7 @@ app.use(bodyParser.urlencoded({
 app.use('/auth', auth);
 app.use('/vendedor', vendedor);
 app.use('/facturacion',factura);
-
-
+app.use('/productoProvedor',productoVendedor)
 
 async function startServer() {
   try {

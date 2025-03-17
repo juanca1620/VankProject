@@ -5,6 +5,7 @@ import usuario from '../dto/UsuarioDTO.js';
 import cliente from '../dto/ClienteDTO.js';
 import vendedor from '../dto/VendedorDTO.js';
 import provedor from '../dto/ProvedorDTO.js';
+import { response } from 'express';
 dotenv.config();
 
 class RepositorioAuth {
@@ -42,7 +43,9 @@ class RepositorioAuth {
   async login(info) {
     const user = await usuario.findOne({ where: { correo: info.email } });
 
-    if(!this.checkToken(info)){
+    const response = await this.checkToken(info)
+
+    if(!response){
       return { error: "Credenciales inválidas", code: 401}
     }
 
