@@ -8,8 +8,22 @@ const ItemFacturaProveedorDTO = sequelize.define('item_factura_proveedor', {
         autoIncrement: true,
     },
     cantidad_producto: {
-        type:DataTypes.INTEGER
+        type:DataTypes.BIGINT
         
+    },
+    producto_id: {
+        references : {
+            model : "producto_proveedor",
+            key : "id"
+        },
+        type : DataTypes.BIGINT
+    },
+    factura_provedor: {
+        references: {
+            model : "factura_proveedor",
+            key : "id"
+        },
+        type : DataTypes.BIGINT
     }
 },{
     freezeTableName: true,
