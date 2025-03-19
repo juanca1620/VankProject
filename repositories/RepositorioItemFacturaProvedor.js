@@ -8,4 +8,4 @@ class RepositorioItemFacturaProvedor {
     }
 }
 
-export default RepositorioItemFactura;
+export default RepositorioItemFacturaProvedor;

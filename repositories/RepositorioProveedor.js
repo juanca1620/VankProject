@@ -1,6 +1,4 @@
-import dotenv from 'dotenv';
 import ProveedorDTO from '../dto/ProvedorDTO.js';
-dotenv.config();
 
 class RepositorioProveedor {
     async buscarProvedorPorId (id) {

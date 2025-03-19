@@ -18,7 +18,7 @@ const ItemFacturaProveedorDTO = sequelize.define('item_factura_proveedor', {
         },
         type : DataTypes.BIGINT
     },
-    factura_provedor: {
+    factura_id: {
         references: {
             model : "factura_proveedor",
             key : "id"
