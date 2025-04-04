@@ -1,14 +1,14 @@
 import {DataTypes} from 'sequelize';
 import {sequelize} from '../database/Connection.js';
 
-const Stock = sequelize.define('stock', {
+const StockDTO = sequelize.define('stock', {
     id: {
         type: DataTypes.BIGINT,
-        primarykey: true,
-        autoincrement: true,
+        primaryKey: true,
+        autoIncrement: true,
     },
     cantidad: {
-        type: DataType.BIGINT,
+        type: DataTypes.BIGINT,
         allowNull: false,
     }
 },{

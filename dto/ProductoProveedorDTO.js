@@ -1,7 +1,7 @@
 import { DataTypes, DECIMAL } from 'sequelize';
 import { sequelize } from '../database/Connection.js';
 
-const productoProvedorDTO = sequelize.define("producto_provedor", {
+const productoProvedorDTO = sequelize.define("producto_proveedor", {
     id: {
         type: DataTypes.BIGINT,
         primaryKey: true,
@@ -41,7 +41,7 @@ const productoProvedorDTO = sequelize.define("producto_provedor", {
         type: DataTypes.STRING(1000),
         allowNull: false,
     },
-    provedor_id: {
+    proveedor_id: {
         references: {
             model: 'vendedor',
             key: 'id'

@@ -1,14 +1,14 @@
-class FacturaProvedorService {
-    constructor(repositorioFactura, repositorioItemFactura, repositorioVendedor, repositorioProvedor, repositorioProducto, repositorioCupon,repositorioProductoVendedor,repositorioStock) {
-        this.repositorioFactura = repositorioFactura;
-        this.repositorioItemFactura = repositorioItemFactura;
-        this.repositorioVendedor = repositorioVendedor;
-        this.repositorioProvedor = repositorioProvedor;
-        this.repositorioProducto = repositorioProducto;
-        this.repositorioCupon = repositorioCupon;
-        this.repositorioProductoVendedor = repositorioProductoVendedor;
-        this.repositorioStock = repositorioStock;
-    }
+class FacturaVendedorService {
+        constructor(repositorioFactura, repositorioItemFactura, repositorioVendedor, repositorioProvedor, repositorioProducto, repositorioCupon,repositorioProductoVendedor,repositorioStock) {
+            this.repositorioFactura = repositorioFactura;
+            this.repositorioItemFactura = repositorioItemFactura;
+            this.repositorioVendedor = repositorioVendedor;
+            this.repositorioProvedor = repositorioProvedor;
+            this.repositorioProducto = repositorioProducto;
+            this.repositorioCupon = repositorioCupon;
+            this.repositorioProductoVendedor = repositorioProductoVendedor;
+            this.repositorioStock = repositorioStock;
+        }
 
     async crearFactura(factura) {
             const items_factura = factura.items_factura;
@@ -104,4 +104,4 @@ class FacturaProvedorService {
     }
 }
 
-export default FacturaProvedorService;
+export default FacturaVendedorService;

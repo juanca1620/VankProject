@@ -4,11 +4,11 @@ import {sequelize} from '../database/Connection.js';
 const ComentarioDTO = sequelize.define('comentario', {
     id: {
         type: DataTypes.BIGINT,
-        primarykey: true,
+        primaryKey: true,
         autoincrement: true,
     },
     contenido: {
-        type: DataTypes.String,
+        type: DataTypes.STRING(1000),
         allowNull: false,
     },
     cliente_id: {

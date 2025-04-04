@@ -10,12 +10,12 @@ class RepositorioVendedor {
         if(!vendedor){
             return {error: "Vendedor no encontrado", code: 404}
         }
-        const nuevoBalance = parseFloat(vendedor.balance) + parseFloat(balance)
+        const nuevoBalance = parseFloat(vendedorJson.balance) + parseFloat(balance)
         if(nuevoBalance < 0){
             return {error: "Fondos insuficientes", code: 400}
         }
-
-        const usuarioActualizado = await Vendedor.update({balance: nuevoBalance}, {where: {id: vendedor_id}})
+        
+        await Vendedor.update({balance: nuevoBalance}, {where: {id: vendedor_id}})
         return {"nuevoBalance" : nuevoBalance}
     }
 
@@ -25,6 +25,15 @@ class RepositorioVendedor {
             return {error: "Vendedor no encontrado", code: 404}
         }
         return vendedor
+    }
+
+    async buscarVendedorPorId(vendedor_id){
+        const vendedor = await Vendedor.findOne({where: {id : vendedor_id}})
+        if(!vendedor){
+            return {error: "Vendedor no encontrado", code: 404}
+        }
+        const vendedorJson = vendedor.toJSON()
+        return vendedorJson;
     }
 }
 

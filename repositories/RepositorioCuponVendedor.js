@@ -1,9 +1,9 @@
-import Cupon from "../dto/CuponProveedorDTO.js";
+import Cupon from "../dto/CuponVendedorDTO.js";
 
-class RepositorioCuponProveedor {
+class RepositorioCuponVendedor {
 
-    async buscarCuponPorNombreYProveedor(nombre, proveedor_id){
-        const cupon = await Cupon.findOne({where: {nombre: nombre, proveedor_id: proveedor_id}})
+    async buscarCuponPorNombreYVendedor(nombre, vendedor_id){
+        const cupon = await Cupon.findOne({where: {nombre: nombre, proveedor_id: vendedor_id}})
         if(!cupon){
             return {error: "Cupon no encontrado", code: 404}
         }
@@ -26,15 +26,15 @@ class RepositorioCuponProveedor {
         return cuponJson;
     }
 
-    async eliminarCuponPorNombreYProvedor(nombre, proveedor_id){
-        const cuponEncontrado = await this.buscarCuponPorNombreYProveedor(nombre, proveedor_id);
+    async eliminarCuponPorNombreYVendedor(nombre, vendedor_id){
+        const cuponEncontrado = await this.buscarCuponPorNombreYVendedor(nombre, vendedor_id);
         if(cuponEncontrado.error){
             return cuponEncontrado;
         }
-        await Cupon.destroy({where: {nombre: nombre, proveedor_id: proveedor_id}});
+        await Cupon.destroy({where: {nombre: nombre, vendedor_id: vendedor_id}});
 
         return cuponEncontrado;
     }
 }
 
-export default RepositorioCuponProveedor;
+export default RepositorioCuponVendedor;

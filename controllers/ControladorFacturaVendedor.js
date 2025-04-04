@@ -1,15 +1,15 @@
-class ControladorFacturaProvedor{
-    constructor(servicioFacturaProvedor){
-        this.servicioFacturaProvedor = servicioFacturaProvedor;
+class ControladorFacturaVendedor{
+    constructor(servicioFacturaVendedor){
+        this.servicioFacturaVendedor = servicioFacturaVendedor;
     }
-    
-    crearFacturaProvedor = async(req, res)=>{
+
+    crearFacturaVendedor = async(req, res) => {
         try {
             const factura = req.body;
-            const respuesta = await this.servicioFacturaProvedor.crearFactura(factura);
-            if(respuesta.error){
+            const respuesta = await this.servicioFacturaVendedor.crearFactura(factura);
+            if(respuesta.error) {
                 res.status(respuesta.code).json(respuesta);
-            }else{
+            } else {
                 res.status(201).json(respuesta);
             }
         } catch (error) {
@@ -17,13 +17,13 @@ class ControladorFacturaProvedor{
         }
     }
 
-    obtenerFacturaPorId = async(req, res)=>{
+    obtenerFacturaId = async(req, res) => {
         try {
             const id = req.params.id;
-            const respuesta = await this.servicioFacturaProvedor.obtenerFacturaPorId(id);
-            if(respuesta.error){
+            const respuesta = await this.servicioFacturaVendedor.obtenerFacturaId(id);
+            if(respuesta.error) {
                 res.status(respuesta.code).json(respuesta);
-            }else{
+            } else {
                 res.status(200).json(respuesta);
             }
         } catch (error) {
@@ -31,13 +31,13 @@ class ControladorFacturaProvedor{
         }
     }
 
-    obtenerItemsFacturaPorIdFactura = async(req, res)=>{
+    obtenerItemFacturaPorID = async(req, res) => {
         try {
             const id = req.params.id;
-            const respuesta = await this.servicioFacturaProvedor.obtenerItemsFacturaPorIdFactura(id);
-            if(respuesta.error){
+            const respuesta = await this.servicioFacturaVendedor.obtenerItemFacturaPorID(id);
+            if(respuesta.error) {
                 res.status(respuesta.code).json(respuesta);
-            }else{
+            } else {
                 res.status(200).json(respuesta);
             }
         } catch (error) {
@@ -46,4 +46,4 @@ class ControladorFacturaProvedor{
     }
 }
 
-export default ControladorFacturaProvedor;
+export default ControladorFacturaVendedor;

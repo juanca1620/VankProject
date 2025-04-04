@@ -1,12 +1,12 @@
 import ProveedorDTO from '../dto/ProvedorDTO.js';
 
 class RepositorioProveedor {
-    async buscarProvedorPorId (id) {
+    async buscarProveedorPorId(id){
         const provedor = await ProveedorDTO.findByPk(id);
         if(!provedor){
             return {error: "provedor no encontrado",code : 404}
         }
-        return provedor
+        return provedor.toJSON();
     }
 }
 

@@ -38,7 +38,7 @@ class ProductoProvedorService {
     }
 
     async existeProvedor (provedor_id){
-        const provedor = await this.provedorRepository.buscarProvedorPorId(provedor_id)
+        const provedor = await this.provedorRepository.buscarProveedorPorId(provedor_id)
 
         return provedor.error == undefined
     }

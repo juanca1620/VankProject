@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import productoProvedorDTO from '../dto/ProductoProvedorDTO.js';
+import productoProvedorDTO from '../dto/ProductoProveedorDTO.js';
 import { Op } from 'sequelize';
 dotenv.config();
 

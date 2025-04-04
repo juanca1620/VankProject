@@ -7,6 +7,17 @@ const CuponVendedorDTO = sequelize.define('cupon_vendedor', {
         primaryKey: true,
         autoIncrement: true,
     },
+    nombre : {
+        type: DataTypes.STRING(100),
+        allowNull: false,
+        validate: {
+            isCorrect(value) {
+                if(value.length < 1 || value.length > 100) {
+                    throw new Error('El nombre del cupon debe tener entre 1 y 100 caracteres');
+                }
+            }
+        }
+    },
     descuento_porcentaje: {
         type: DataTypes.DOUBLE(3,2),
         allowNull: false,
@@ -19,7 +30,7 @@ const CuponVendedorDTO = sequelize.define('cupon_vendedor', {
             }
         }
     },
-   id_vendedor: {
+   vendedor_id: {
     references: {
         model: 'vendedor',
         key: 'id',
