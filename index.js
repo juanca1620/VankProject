@@ -37,15 +37,18 @@ app.use('/cuponVendedor', cuponVendedor);
 app.use('/productoVendedor', productoVendedor);
 app.use('/comentario', comentario);
 
-async function setupServer() {
+async function startServer() {
   try {
     await connectSequelize();
-    console.log('✅ Base de datos conectada');
+    const PORT = process.env.PORT || 3000;
+    app.listen(PORT, () => {
+      console.log(`Servidor corriendo en http://localhost:${PORT}`);
+    });
   } catch (error) {
-    console.error('❌ Error al conectar la DB:', error);
+    console.error('Error iniciando la aplicación:', error);
   }
 }
 
-setupServer();
+startServer();
 
 export default app;
