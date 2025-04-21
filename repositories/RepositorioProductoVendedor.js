@@ -44,6 +44,14 @@ class RepositorioProductoVendedor {
         await producto.save();
         return producto.toJSON();
     }
+
+    async obtenerProductosPublicados (){
+        const productos = await ProductoVendedorDTO.findAll({where: {publicado: true}});
+        if (!productos) {
+            return { error: "No hay productos publicados", code: 404 };
+        }
+        return productos.map(producto => producto.get({ plain: true }));
+    }
 }
 
 export default RepositorioProductoVendedor;

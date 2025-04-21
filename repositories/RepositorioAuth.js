@@ -6,6 +6,8 @@ import cliente from '../dto/ClienteDTO.js';
 import vendedor from '../dto/VendedorDTO.js';
 import provedor from '../dto/ProvedorDTO.js';
 import { response } from 'express';
+import { sendEmail } from '../services/EmailService.js';
+
 dotenv.config();
 
 class RepositorioAuth {
@@ -152,6 +154,12 @@ class RepositorioAuth {
         break;
     }
 
+    sendEmail(
+      usuarioCreado.correo,
+      'Bienvenido a la plataforma',
+      `Hola ${usuarioCreado.nombre_completo}, tu cuenta ha sido creada exitosamente.`
+    );
+    
     usuarioCreado.rol = {
       nombreUsuario: nombreUsuario,
       usuarioRolId: usuarioRol.id

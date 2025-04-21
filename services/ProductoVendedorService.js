@@ -52,6 +52,14 @@ class ProductoProvedorService {
     
         return await this.repositorioProductoProvedor.actualizarPrecioProducto(productoEncontrado.id, producto.nuevoPrecio);
     }
+
+    async obtenerProductosPublicados() {
+        const productos = await this.repositorioProductoProvedor.obtenerProductosPublicados();
+        if (productos.error) {
+            return productos;
+        }
+        return { productos, code: 200 };
+    }
 }
 
 export default ProductoProvedorService;
