@@ -2,8 +2,8 @@ import { body, validationResult } from 'express-validator';
 
 const validacionesCrearFactura = [
     body('cupon').optional().isString().isLength({max:100}).withMessage("Cupon debe ser un string entre 1 y 100 caracteres"),
-    body('proveedor_id').notEmpty().withMessage("vendedorId obligatorio").isInt({ min: 1 }).withMessage("El vendedorId debe ser un valor numérico"),
-    body('vendedor_id').notEmpty().withMessage("vendedorId obligatorio").isInt({ min: 1 }).withMessage("El clienteId debe ser un valor numérico"),
+    body('cliente_id').notEmpty().withMessage("clienteId obligatorio").isInt({ min: 1 }).withMessage("El clienteId debe ser un valor numérico"),
+    body('vendedor_id').notEmpty().withMessage("vendedorId obligatorio").isInt({ min: 1 }).withMessage("El vendedorId debe ser un valor numérico"),
     body('items_factura').notEmpty().withMessage("itemsFactura obligatorio").isArray().withMessage("itemsFactura debe ser un array").custom((value) => {
         if (value.length > 0) {
             return true;

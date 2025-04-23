@@ -3,7 +3,7 @@ import Cupon from "../dto/CuponVendedorDTO.js";
 class RepositorioCuponVendedor {
 
     async buscarCuponPorNombreYVendedor(nombre, vendedor_id){
-        const cupon = await Cupon.findOne({where: {nombre: nombre, proveedor_id: vendedor_id}})
+        const cupon = await Cupon.findOne({where: {nombre: nombre, vendedor_id: vendedor_id}})
         if(!cupon){
             return {error: "Cupon no encontrado", code: 404}
         }

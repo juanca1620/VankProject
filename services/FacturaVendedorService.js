@@ -1,98 +1,98 @@
 class FacturaVendedorService {
-        constructor(repositorioFactura, repositorioItemFactura, repositorioVendedor, repositorioProvedor, repositorioProducto, repositorioCupon,repositorioProductoVendedor,repositorioStock) {
-            this.repositorioFactura = repositorioFactura;
-            this.repositorioItemFactura = repositorioItemFactura;
-            this.repositorioVendedor = repositorioVendedor;
-            this.repositorioProvedor = repositorioProvedor;
-            this.repositorioProducto = repositorioProducto;
-            this.repositorioCupon = repositorioCupon;
-            this.repositorioProductoVendedor = repositorioProductoVendedor;
-            this.repositorioStock = repositorioStock;
-        }
+    constructor(repositorioFactura, repositorioItemFactura, repositorioVendedor, repositorioCliente, repositorioProducto, repositorioCupon, repositorioProductoVendedor, repositorioStock) {
+        this.repositorioFactura = repositorioFactura;
+        this.repositorioItemFactura = repositorioItemFactura;
+        this.repositorioVendedor = repositorioVendedor;
+        this.repositorioCliente = repositorioCliente;
+        this.repositorioProducto = repositorioProducto;
+        this.repositorioCupon = repositorioCupon;
+        this.repositorioStock = repositorioStock;
+    }
 
     async crearFactura(factura) {
-            const items_factura = factura.items_factura;
-            const promesasBuscarProducto = items_factura.map(async item_factura => {
-                return this.repositorioProducto.buscarProductoPorId(item_factura.producto_id);
-            });
+        const items_factura = factura.items_factura;
 
-            const vendedor = this.repositorioVendedor.buscarVendedorPorId(factura.vendedor_id);
-            const provedor = this.repositorioProvedor.buscarProveedorPorId(factura.proveedor_id);
+        // Validar productos en la factura
+        const promesasBuscarProducto = items_factura.map(async item_factura => {
+            return this.repositorioProducto.obtenerProductoPorIdYVendedorId(item_factura.producto_id, factura.vendedor_id);
+        });
 
-            const promesasGeneral = [vendedor, provedor, Promise.all(promesasBuscarProducto)];
-            const resultadoPromesas = await Promise.all(promesasGeneral);
+        const vendedor = this.repositorioVendedor.buscarVendedorPorId(factura.vendedor_id);
+        const cliente = this.repositorioCliente.buscarClientePorId(factura.cliente_id);
 
-            const promesasTerminadas = resultadoPromesas[2];
-            let indexNull;
+        const promesasGeneral = [vendedor, cliente, Promise.all(promesasBuscarProducto)];
+        const resultadoPromesas = await Promise.all(promesasGeneral);
 
-            promesasTerminadas.forEach((item_factura, index) => {
-                if (item_factura.error) {
-                    indexNull = index = 1;
-                }
-            });
+        const productosEncontrados = resultadoPromesas[2];
+        let indexSinStock;
 
-
-            if (indexNull !== undefined) {
-                return { error: `Producto no encontrado en el item ${indexNull}`, code: 404 };
+        // Verificar stock disponible para cada producto
+        for (let i = 0; i < productosEncontrados.length; i++) {
+            const producto = productosEncontrados[i];
+            if (producto.error) {
+                return { error: `Producto no encontrado en el item ${i}`, code: 404 };
             }
 
-            if (resultadoPromesas[0].error) {
-                return resultadoPromesas[0];
+            const stock = await this.repositorioStock.buscarStockPorId(producto.stock_id);
+            if (stock.error || stock.cantidad < items_factura[i].cantidad_producto) {
+                indexSinStock = i;
+                break;
             }
+        }
 
-            if (resultadoPromesas[1].error) {
-                return resultadoPromesas[1];
+        if (indexSinStock !== undefined) {
+            return { error: `Stock insuficiente para el producto en el item ${indexSinStock}`, code: 400 };
+        }
+
+        if (resultadoPromesas[0].error) {
+            return resultadoPromesas[0];
+        }
+
+        if (resultadoPromesas[1].error) {
+            return resultadoPromesas[1];
+        }
+
+        // Aplicar descuento si hay un cupón
+        let descuento_porcentaje = 0;
+        if (factura.cupon) {
+            const cupon = await this.repositorioCupon.buscarCuponPorNombreYVendedor(factura.cupon, factura.vendedor_id);
+            if (cupon.error) {
+                return cupon;
             }
+            descuento_porcentaje = cupon.descuento_porcentaje;
+        }
 
-            let descuento_porcentaje = 0;
-            if (factura.cupon) {
-                const cupon = await this.repositorioCupon.buscarCuponPorNombreYProveedor(factura.cupon, factura.proveedor_id);
-                if (cupon.error) {
-                    return cupon;
-                }
-                descuento_porcentaje = cupon.descuento_porcentaje;
-            }
+        // Calcular el valor total de la factura
+        const valorTotal = productosEncontrados.reduce((valor_anterior, producto, index) => {
+            return valor_anterior + producto.precio * items_factura[index].cantidad_producto;
+        }, 0);
 
-            const valorTotal = promesasTerminadas.reduce((valor_anterior, item_factura) => valor_anterior + parseInt(item_factura.precio),0);
+        // Crear la factura
+        const facturaJSON = {
+            cliente_id: factura.cliente_id,
+            vendedor_id: factura.vendedor_id,
+            valor_total: valorTotal,
+            descuento_aplicado: valorTotal - (descuento_porcentaje / 100) * valorTotal
+        };
 
-            await this.repositorioVendedor.cambiarBalance(-valorTotal, factura.vendedor_id);
+        const facturaCreada = await this.repositorioFactura.crearFacturaVendedor(facturaJSON);
 
-            const facturaJSON = {
-                proveedor_id: factura.proveedor_id,
-                vendedor_id: factura.vendedor_id,
-                valor_total: valorTotal,
-                descuento_aplicado : valorTotal - descuento_porcentaje/100 * valorTotal
-            };
+        // Crear los ítems de la factura y restar el stock
+        const itemsFacturaPromises = items_factura.map(async (item_factura, index) => {
+            item_factura.factura_id = facturaCreada.id;
+            item_factura.precio_unitario = productosEncontrados[index].precio;
 
-            const facturaCreada = await this.repositorioFactura.crearFacturaProvedor(facturaJSON);
-            const itemsFacturaPromises = await items_factura.map(async (item_factura ,index ) => {
-                item_factura.factura_id = facturaCreada.id;
-                const productoVendedor =  await this.repositorioProductoVendedor.obtenerProductoPorNombreYVendedorId(promesasTerminadas[index].nombre, factura.vendedor_id);
-                if(productoVendedor.error){
-                    const promesaStock = await this.repositorioStock.crearStock(item_factura.cantidad_producto);
+            // Restar el stock del producto
+            const stock = await this.repositorioStock.buscarStockPorId(productosEncontrados[index].stock_id);
+            stock.cantidad -= item_factura.cantidad_producto;
+            await this.repositorioStock.cambiarStock(stock);
 
-                    const productoJSON = {
-                        nombre: promesasTerminadas[index].nombre,
-                        precio: promesasTerminadas[index].precio,
-                        descripcion: promesasTerminadas[index].descripcion,
-                        url_imagen: promesasTerminadas[index].url_imagen,
-                        vendedor_id: factura.vendedor_id,
-                        stock_id : promesaStock.id
-                    }
-                    
-                    await this.repositorioProductoVendedor.crearProductoVendedor(productoJSON);
+            return this.repositorioItemFactura.crearItemFactura(item_factura);
+        });
 
-                }else{
-                    const stock = await this.repositorioStock.buscarStockPorId(productoVendedor.stock_id);
-                    stock.cantidad = stock.cantidad + item_factura.cantidad_producto
-                    await this.repositorioStock.cambiarStock(stock)
-                }
-                return this.repositorioItemFactura.crearItemFactura(item_factura);
-            });
-            
-            await Promise.all(itemsFacturaPromises);
+        await Promise.all(itemsFacturaPromises);
 
-            return facturaCreada;
+        return facturaCreada;
     }
 
     async obtenerFacturaPorId(id) {

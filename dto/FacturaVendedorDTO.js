@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../database/Connection.js";
 
-const FacturaVendedorDTO = sequelize.define('item_factura_proveedor', {
+const FacturaVendedorDTO = sequelize.define('factura_vendedor', {
     id: {
         type: DataTypes.BIGINT,
         primaryKey: true,
@@ -24,10 +24,7 @@ const FacturaVendedorDTO = sequelize.define('item_factura_proveedor', {
         defaultValue: () => {
             const localDate = new Date();
             localDate.setMinutes(localDate.getMinutes() - localDate.getTimezoneOffset());
-            const day = String(localDate.getDate()).padStart(2, '0');
-            const month = String(localDate.getMonth() + 1).padStart(2, '0');
-            const year = localDate.getFullYear();
-            return `${day}/${month}/${year}`; // Formato 'DD/MM/YYYY'
+            return localDate.toISOString().split('T')[0]; // Formato 'YYYY-MM-DD'
         }
     },
    descuento_aplicado: {
@@ -47,7 +44,7 @@ const FacturaVendedorDTO = sequelize.define('item_factura_proveedor', {
     },
     type: DataTypes.BIGINT
    }, 
-   provedor_id: {
+   cliente_id: {
     references: {
         model: 'proveedor',
         key: 'id',

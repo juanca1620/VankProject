@@ -9,6 +9,7 @@ import cuponProvedor from "./routes/CuponProvedor.js"
 import cuponVendedor from './routes/CuponVendedor.js';
 import productoVendedor from "./routes/ProductoVendedor.js"
 import comentario from "./routes/Comentario.js"
+import FacturaVendedor  from "./routes/FacturaVendedor.js"
 import cors from 'cors';
 
 // 2. Crear una instancia de la aplicación Express usando 'let'​
@@ -36,6 +37,7 @@ app.use('/cuponProvedor', cuponProvedor);
 app.use('/cuponVendedor', cuponVendedor);
 app.use('/productoVendedor', productoVendedor);
 app.use('/comentario', comentario);
+app.use('/facturaVendedor', FacturaVendedor);
 
 async function startServer() {
   try {

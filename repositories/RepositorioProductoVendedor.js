@@ -52,6 +52,14 @@ class RepositorioProductoVendedor {
         }
         return productos.map(producto => producto.get({ plain: true }));
     }
+
+    async obtenerProductoPorIdYVendedorId(id, vendedor_id) {
+        const producto = await ProductoVendedorDTO.findOne({ where: { id : id, vendedor_id: vendedor_id } });
+        if (!producto) {
+            return { error: "Producto no encontrado", code: 404 };
+        }
+        return producto.get({ plain: true });
+    }
 }
 
 export default RepositorioProductoVendedor;
