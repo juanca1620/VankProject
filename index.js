@@ -10,6 +10,7 @@ import cuponVendedor from './routes/CuponVendedor.js';
 import productoVendedor from "./routes/ProductoVendedor.js"
 import comentario from "./routes/Comentario.js"
 import FacturaVendedor  from "./routes/FacturaVendedor.js"
+import Comentario from "./routes/Comentario.js"
 import cors from 'cors';
 
 // 2. Crear una instancia de la aplicación Express usando 'let'​
@@ -29,6 +30,15 @@ app.use(bodyParser.urlencoded({
         true
 })); // Para parsear el cuerpo de las solicitudes en formato URL-encoded​
 
+app.use((err, req, res, next) => {
+  console.error("🔥 Error middleware triggered:", err.stack); // Forza un log
+  res.status(500).json({
+      error: "Error interno del servidor",
+      details: err.message,
+      stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
+  });
+});
+
 app.use('/auth', auth);
 app.use('/vendedor', vendedor);
 app.use('/facturacion',factura);
@@ -38,6 +48,7 @@ app.use('/cuponVendedor', cuponVendedor);
 app.use('/productoVendedor', productoVendedor);
 app.use('/comentario', comentario);
 app.use('/facturaVendedor', FacturaVendedor);
+app.use("/comentario", Comentario);
 
 async function startServer() {
   try {

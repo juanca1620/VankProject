@@ -5,7 +5,7 @@ const ComentarioDTO = sequelize.define('comentario', {
     id: {
         type: DataTypes.BIGINT,
         primaryKey: true,
-        autoincrement: true,
+        autoIncrement: true,
     },
     contenido: {
         type: DataTypes.STRING(1000),

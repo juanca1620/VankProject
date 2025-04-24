@@ -1,7 +1,5 @@
-// models/ProductoClienteView.js
-
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database'); // Ajusta esta ruta según tu proyecto
+import { DataTypes } from "sequelize";
+import { sequelize } from "../database/Connection.js";
 
 const ProductoClienteView = sequelize.define('ProductoClienteView', {
   cliente_id: {
@@ -50,4 +48,4 @@ const ProductoClienteView = sequelize.define('ProductoClienteView', {
   freezeTableName: true
 });
 
-module.exports = ProductoClienteView;
+export default ProductoClienteView;

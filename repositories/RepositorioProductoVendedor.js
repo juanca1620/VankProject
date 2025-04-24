@@ -60,6 +60,14 @@ class RepositorioProductoVendedor {
         }
         return producto.get({ plain: true });
     }
+
+    async buscarProductoPorId(id) {
+        const producto = await ProductoVendedorDTO.findByPk(id);
+        if (!producto) {
+            return { error: "Producto no encontrado", code: 404 };
+        }
+        return producto.get({ plain: true });
+    }
 }
 
 export default RepositorioProductoVendedor;
