@@ -1,8 +1,8 @@
 import express from 'express';
 import  { connectSequelize } from './database/Connection.js';
 import bodyParser from 'body-parser';
-import vendedor from './routes/vendedor.js';
-import auth from './routes/auth.js';
+import vendedor from "./routes/Vendedor.js";
+import auth from './routes/Auth.js';
 import factura from './routes/FacturaProvedor.js';
 import productoProvedor from './routes/ProductoProvedor.js'
 import cuponProvedor from "./routes/CuponProvedor.js"
@@ -29,15 +29,6 @@ app.use(bodyParser.urlencoded({
     extended:
         true
 })); // Para parsear el cuerpo de las solicitudes en formato URL-encoded​
-
-app.use((err, req, res, next) => {
-  console.error("🔥 Error middleware triggered:", err.stack); // Forza un log
-  res.status(500).json({
-      error: "Error interno del servidor",
-      details: err.message,
-      stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
-  });
-});
 
 app.use('/auth', auth);
 app.use('/vendedor', vendedor);

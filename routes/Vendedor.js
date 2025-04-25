@@ -3,7 +3,7 @@ import Validator from '../middleware/validator/VendendorValidator.js';
 import VendedorController from '../controllers/ControladorVendedor.js'
 import VendedorService from '../services/VendedorService.js'
 import RepositorioVendedor from '../repositories/RepositorioVendedor.js'
-import tokenVeficator from '../middleware/segurity/tokenVerificator.js'
+import tokenVeficator from '../middleware/segurity/TokenVerificator.js'
 
 const router = express.Router();
 

@@ -1,5 +1,5 @@
 import express from 'express';
-import verifyToken from '../middleware/segurity/tokenVerificator.js';
+import verifyToken from '../middleware/segurity/TokenVerificator.js';
 
 import RepositorioFactura from "../repositories/RepositorioFacturaVendedor.js";
 import RepositorioItemFactura from "../repositories/RepositorioItemFacturaVendedor.js";

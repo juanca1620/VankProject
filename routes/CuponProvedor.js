@@ -1,10 +1,10 @@
 import express from 'express';
-import verifyToken from '../middleware/segurity/tokenVerificator.js';
+import verifyToken from '../middleware/segurity/TokenVerificator.js';
 import RepositorioCupon from '../repositories/RepositorioCuponProvedor.js';
 import RepositorioProveedor from '../repositories/RepositorioProveedor.js';
 import CuponService from '../services/CuponProvedorService.js';
 import ControladorCupon from '../controllers/ControladorCuponProvedor.js';
-import CuponValidator from "../middleware/validator/cuponProvedor.js"
+import CuponValidator from "../middleware/validator/CuponProvedor.js"
 
 const router = express.Router();
 

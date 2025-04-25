@@ -1,5 +1,5 @@
 import express from 'express';
-import verifyToken from '../middleware/segurity/tokenVerificator.js';
+import verifyToken from '../middleware/segurity/TokenVerificator.js';
 import ComentarioValidator from '../middleware/validator/ComentarioValidator.js';
 import ControladorComentario from '../controllers/ControladorComentario.js';
 import RepositorioComentario from '../repositories/RepositorioComentario.js';

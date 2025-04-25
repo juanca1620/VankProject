@@ -55,3 +55,4 @@ tsconfig.json
 
 # Archivos de configuración de Jest
 jest.config.js
+.vercel

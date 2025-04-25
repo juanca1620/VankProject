@@ -3,7 +3,7 @@ import RepositorioProductoProvedor from '../repositories/RepositorioProductoProv
 import RepositorioProvedor from '../repositories/RepositorioProveedor.js'
 import ProductoProvedorService from '../services/ProductoProvedorService.js';
 import ControladorProductoProvedor from '../controllers/ControladorProductoProvedor.js';
-import validadorAuth from '../middleware/segurity/tokenVerificator.js';
+import validadorAuth from '../middleware/segurity/TokenVerificator.js';
 import validator from '../middleware/validator/ProductoProvedorValidator.js'
 
 const router = express.Router();

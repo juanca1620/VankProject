@@ -4,7 +4,7 @@ import RepositorioProductoVendedor from "../repositories/RepositorioProductoVend
 import RepositorioStock from "../repositories/RepositorioStock.js"
 import ProductoVendedorService from "../services/ProductoVendedorService.js";
 import ControladorProductoVendedor from "../controllers/ControladorProductoVendedor.js";
-import verifyToken from '../middleware/segurity/tokenVerificator.js';
+import verifyToken from '../middleware/segurity/TokenVerificator.js';
 import valicacionesProductoVendedor from "../middleware/validator/ProductoVendedorValidator.js";
 
 const router = express.Router();
